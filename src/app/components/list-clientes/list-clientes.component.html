@@ -2,30 +2,36 @@
   <div class="card">
     <div class="card-body">
       <span class="h3"> Listado de Clientes</span>
-      <button class="btn btn-dark btn-lg float-end" routerLink="/create-clientes">Añadir</button>
+      <button
+        class="btn btn-dark btn-lg float-end"
+        routerLink="/create-clientes"
+      >
+        Añadir
+      </button>
       <table class="table table-striped mt-5">
         <thead>
           <tr>
-            <th>cliente</th>
+            <th>Name</th>
+            <th>Lastname</th>
             <th>Email</th>
-            <th>Telefono</th>
-            <th>Producto</th>
+            <th>Document</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let cliente of clientes">
-            <td>{{cliente.cliente}}</td>
-            <td>{{cliente.Email}}</td>
-            <td>{{cliente.Telefono}}</td>
-            <td>{{cliente.Producto}}</td>
+            <td>{{ cliente.name }}</td>
+            <td>{{ cliente.lastname }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.document }}</td>
             <td>
-                <i class="fa-solid fa-pen-to-square fa-lg text-info me-3"></i>
-                <i (click)="eliminarClientes(cliente.id)" class="fa-solid fa-trash fa-lg text-danger"></i>
+              <i class="fa-solid fa-pen-to-square fa-lg text-info me-3"></i>
+              <i
+                (click)="eliminarClientes(cliente.id)"
+                class="fa-solid fa-trash fa-lg text-danger"
+              ></i>
             </td>
           </tr>
-          
-        
         </tbody>
       </table>
     </div>

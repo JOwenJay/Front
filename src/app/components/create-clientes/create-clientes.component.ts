@@ -7,58 +7,53 @@ import { ClienteService } from 'src/app/services/cliente.service';
 @Component({
   selector: 'app-create-clientes',
   templateUrl: './create-clientes.component.html',
-  styleUrls: ['./create-clientes.component.css']
+  styleUrls: ['./create-clientes.component.css'],
 })
 export class CreateClientesComponent implements OnInit {
-
   createCliente: FormGroup;
   submitted = false;
   loading = false;
-  constructor(private fb: FormBuilder,
-              private _clienteService:ClienteService,
-              private router : Router,
-              private toastr: ToastrService ){ 
-    this.createCliente = this.fb.group(
-      {
-        cliente: ['', Validators.required],
-        Email: ['', Validators.required],
-        Telefono: ['', Validators.required],
-        Producto: ['', Validators.required]
-      }
-    )
-
+  constructor(
+    private fb: FormBuilder,
+    private _clienteService: ClienteService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {
+    this.createCliente = this.fb.group({
+      cliente: ['', Validators.required],
+      lastname: ['', Validators.required],
+      Email: ['', Validators.required],
+      Telefono: ['', Validators.required],
+      Documento: ['', Validators.required],
+    });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  agregarCliente(){
+  agregarCliente() {
     this.submitted = true;
-    if(this.createCliente.invalid){
-     return;
+    if (this.createCliente.invalid) {
+      return;
     }
-    const cliente: any ={
-      cliente: this.createCliente.value.cliente,
-      Email: this.createCliente.value.Email,
+    const cliente: any = {
+      name: this.createCliente.value.cliente,
+      lastname: this.createCliente.value.lastname,
+      email: this.createCliente.value.Email,
       Telefono: this.createCliente.value.Telefono,
-      Producto: this.createCliente.value.Producto,
+      document: this.createCliente.value.Documento,
       fechaCreacion: new Date(),
-      fechaActualizacion: new Date()
-
-    }
+      fechaActualizacion: new Date(),
+    };
     this.loading = true;
-    
-    this._clienteService.agregarCliente(cliente).then(()=>{
-      this.toastr.success('el cliente fue registrado con exito','cliente registrado', {positionClass :'toast-bottom-right'});
+
+    this._clienteService.agregarCliente(cliente).subscribe(() => {
+      this.toastr.success(
+        'el cliente fue registrado con exito',
+        'cliente registrado',
+        { positionClass: 'toast-bottom-right' }
+      );
       this.loading = false;
       this.router.navigate(['/list-clientes']);
-      }).catch(error=>{
-      console.log('error');
-      this.loading = false;
-   })
-    
-    
-   
+    });
   }
-
 }

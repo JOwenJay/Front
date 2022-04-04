@@ -1,27 +1,26 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
-
+import { Customer } from '../interfaces/cliente';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClienteService {
+  URL: string = 'http://localhost:8080/customer';
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private http: HttpClient) {}
 
-  agregarCliente(cliente:any): Promise<any> {
-    return this.firestore.collection('clientes').add(cliente);
+  agregarCliente(cliente: any): Observable<any> {
+    return this.http.post<any>(`${this.URL}/save`, cliente);
   }
 
-  getClientes(): Observable<any> {
-    return this.firestore.collection('clientes', ref => ref.orderBy('fechaCreacion', 'asc')).snapshotChanges();
+  getClientes(): Observable<Customer[]> {
+    return this.http.get<Customer[]>(`${this.URL}`);
   }
 
-  eliminarCliente(id: string):Promise <any> {
-    return this.firestore.collection('clientes').doc(id).delete();
+  eliminarCliente(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.URL}/delete/${id}`);
   }
-
 }
-
-
